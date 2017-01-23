@@ -123,9 +123,9 @@ def j88_get_principal_verts(pgon, ang, flags):
     bad = flags.strip('AB')
     if bad:
         raise ValueError('Unrecognised form flag(s) \''+bad+'\'')
-    ridge_down = 'A' in flags
+    ridge = 'A' not in flags
     belt_back = 'B' in flags
-    A, B, B2, C = get_pstts_cap_verts(pgon, ang, ridge_down)
+    A, B, B2, C = get_pstts_cap_verts(pgon, ang, ridge)
 
     p_ang = pgon.angle()/2
     sq_mid = (B + B2.rot_z(2*p_ang)) / 2
@@ -264,9 +264,9 @@ def j90_get_principal_verts(pgon, ang, flags):
     bad = flags.strip('AB')
     if bad:
         raise ValueError('Unrecognised form flag(s) \''+bad+'\'')
-    ridge_down = 'A' in flags
+    ridge = 'A' not in flags
     belt_back = 'B' in flags
-    A, B, B2, C = get_pstts_cap_verts(pgon, ang, ridge_down)
+    A, B, B2, C = get_pstts_cap_verts(pgon, ang, ridge)
 
     p_ang = pgon.angle()/2
 
