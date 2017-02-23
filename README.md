@@ -73,7 +73,7 @@ To see the help for a program, run it with *-h*.
     specified height above the origin. The axis to rotate the plane
     about passes through the origin and is in the direction of the
     base polygon mid-edge to the pyramid apex.
-* **[tri_tiling.py](./)**  
+* **[tri_tiling.py](./tri_tiling.py)**
     Create a polyhedron which tiles the sphere with congruent triangles.
 * **[twister.py](./twister.py)**  
     Twist two polygons placed on symmetry axes and joined by a vertex
@@ -82,5 +82,13 @@ To see the help for a program, run it with *-h*.
     joined by vertices.
 * **[twister_test.py](./twister_test.py)**  
     Twist two polygons placed on axes at a specified angle and joined by
-    a vertex
+    a vertex.
 
+### Complementary Programs
+
+Related Python programs in external projects
+
+* **[geogrid](https://github.com/brsr/geogrid)**
+    Generates geodesic models by various methods.
+* **[view_off.py](https://github.com/brsr/geogrid/blob/master/bin/view_off.py)**
+    An OFF file viewer with export to PNG and SVG.
