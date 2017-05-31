@@ -23,25 +23,27 @@
 Create a cyclic polyhedron with one or two bands
 of equatorial squares, oriented like diamonds.
 '''
-
 import argparse
 import sys
 from math import cos, sin, tan, sqrt
 import anti_lib
-from anti_lib import Vec
 
 
 def make_1_band_model(pgon, trapezo):
+    """Make square barrel model with one band of squares"""
     N = pgon.N
-    a = pgon.angle()/2
-    R = 1/sqrt(2)/sin(a)
+    a = pgon.angle() / 2
+    R = 1 / sqrt(2) / sin(a)
     ht = sqrt(2)
-    R_ht = 1/sqrt(2)/tan(a)
-    points = [Vec(0, 0, 0)]*3*N
+    R_ht = 1 / sqrt(2) / tan(a)
+    points = [anti_lib.Vec(0, 0, 0)] * 3 * N
     for i in range(N):
-        points[i] = Vec(R_ht*cos(2*i*a), R_ht*sin(2*i*a), ht/2)
-        points[i+N] = Vec(R*cos(2*i*a+a), R*sin(2*i*a+a), 0)
-        points[i+2*N] = Vec(R_ht*cos(2*i*a), R_ht*sin(2*i*a), -ht/2)
+        points[i] = anti_lib.Vec(
+            R_ht * cos(2 * i * a), R_ht * sin(2 * i * a), ht / 2)
+        points[i + N] = anti_lib.Vec(R * cos(2 * i * a + a),
+                                     R * sin(2 * i * a + a), 0)
+        points[i + 2 * N] = anti_lib.Vec(R_ht *
+                                         cos(2 * i * a), R_ht * sin(2 * i * a), -ht / 2)
 
     if trapezo:
         A = sqrt(points[N][0]**2 + points[N][1]**2)
@@ -49,70 +51,76 @@ def make_1_band_model(pgon, trapezo):
         B = sqrt(mid[0]**2 + mid[1]**2)
         z_diff = mid[2] - points[N][2]
         apex = points[N][2] - A * z_diff / (B - A)
-        points.append(Vec(0, 0, apex))
-        points.append(Vec(0, 0, -apex))
+        points.append(anti_lib.Vec(0, 0, apex))
+        points.append(anti_lib.Vec(0, 0, -apex))
 
     faces = []
     if not trapezo:
         faces.append([i for i in range(N)])      # top
-        faces.append([i+2*N for i in range(N)])  # bottom
+        faces.append([i + 2 * N for i in range(N)])  # bottom
 
     for i in range(N):
-        faces.append([i, i + N, i + 2*N, (i-1+N) % N + N])
+        faces.append([i, i + N, i + 2 * N, (i - 1 + N) % N + N])
         if trapezo:
-            faces.append([i, 3*N, (i+1) % N, i + N])
-            faces.append([i+N, (i+1) % N + 2*N, 3*N+1, i + 2*N])
+            faces.append([i, 3 * N, (i + 1) % N, i + N])
+            faces.append([i + N, (i + 1) % N + 2 * N, 3 * N + 1, i + 2 * N])
         else:
-            faces.append([i, (i+1) % N, i + N])
-            faces.append([i+N, (i+1) % N + 2*N, i + 2*N])
+            faces.append([i, (i + 1) % N, i + N])
+            faces.append([i + N, (i + 1) % N + 2 * N, i + 2 * N])
 
     return points, faces
 
 
 def make_2_band_model(pgon, trapezo):
+    """Make square barrel model with two bands of squares"""
     N = pgon.N
-    a = pgon.angle()/2
-    R = 1/(sqrt(2)*sin(a))
-    ht = sqrt(1-0.5/(cos(a/2))**2)
-    points = [Vec(0, 0, 0)]*4*N
+    a = pgon.angle() / 2
+    R = 1 / (sqrt(2) * sin(a))
+    ht = sqrt(1 - 0.5 / (cos(a / 2))**2)
+    points = [anti_lib.Vec(0, 0, 0)] * 4 * N
     for i in range(N):
-        points[i] = Vec(R*cos(2*i*a+a/2), R*sin(2*i*a+a/2), ht/2)
-        points[i+N] = Vec(R*cos(2*i*a-a/2), R*sin(2*i*a-a/2), -ht/2)
+        points[i] = anti_lib.Vec(
+            R * cos(2 * i * a + a / 2), R * sin(2 * i * a + a / 2), ht / 2)
+        points[i + N] = anti_lib.Vec(R * cos(2 * i * a - a / 2),
+                                     R * sin(2 * i * a - a / 2), -ht / 2)
 
     for i in range(N):
         # Add in the fourth point of the squares
-        points[i+2*N] = points[i] - points[(i+1) % N + N] + points[(i+1) % N]
-        points[i+3*N] = points[i+N] - points[i] + points[(i+1) % N + N]
+        points[i + 2 * N] = points[i] - \
+            points[(i + 1) % N + N] + points[(i + 1) % N]
+        points[i + 3 * N] = points[i + N] - points[i] + points[(i + 1) % N + N]
 
     if trapezo:
         A = sqrt(points[1][0]**2 + points[1][1]**2)
-        mid = (points[2*N] + points[2*N+1]) / 2
-        B = (1-2*(N < 4*pgon.D)) * sqrt(mid[0]**2 + mid[1]**2)
+        mid = (points[2 * N] + points[2 * N + 1]) / 2
+        B = (1 - 2 * (N < 4 * pgon.D)) * sqrt(mid[0]**2 + mid[1]**2)
         z_diff = mid[2] - points[1][2]
         apex = points[1][2] - A * z_diff / (B - A)
-        points.append(Vec(0, 0, apex))
-        points.append(Vec(0, 0, -apex))
+        points.append(anti_lib.Vec(0, 0, apex))
+        points.append(anti_lib.Vec(0, 0, -apex))
 
     faces = []
     if not trapezo:
-        faces.append([i+2*N for i in range(N)])  # top
-        faces.append([i+3*N for i in range(N)])  # bottom
+        faces.append([i + 2 * N for i in range(N)])  # top
+        faces.append([i + 3 * N for i in range(N)])  # bottom
 
     for i in range(N):
-        faces.append([i, (i+1) % N + N, (i+1) % N, i+2*N])
-        faces.append([i+N, i, (i+1) % N + N, i+3*N])
+        faces.append([i, (i + 1) % N + N, (i + 1) % N, i + 2 * N])
+        faces.append([i + N, i, (i + 1) % N + N, i + 3 * N])
         if trapezo:
-            faces.append([i+3*N, (i+1) % N + N, (i+1) % N + 3*N, 4*N+1])
-            faces.append([i+2*N, (i+1) % N, (i+1) % N + 2*N, 4*N])
+            faces.append([i + 3 * N, (i + 1) % N + N, (i + 1) %
+                          N + 3 * N, 4 * N + 1])
+            faces.append([i + 2 * N, (i + 1) % N, (i + 1) % N + 2 * N, 4 * N])
         else:
-            faces.append([i+3*N, (i+1) % N + N, (i+1) % N + 3*N])
-            faces.append([i+2*N, (i+1) % N, (i+1) % N + 2*N])
+            faces.append([i + 3 * N, (i + 1) % N + N, (i + 1) % N + 3 * N])
+            faces.append([i + 2 * N, (i + 1) % N, (i + 1) % N + 2 * N])
 
     return points, faces
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    """Entry point"""
+    paarser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(
         'polygon_fraction',
@@ -144,12 +152,13 @@ def main():
     if args.number_bands == '1':
         points, faces = make_1_band_model(pgon, args.trapezo)
     else:
-        if pgon.N < 2*pgon.D:
+        if pgon.N < 2 * pgon.D:
             parser.error('polyhedron is not constructible (fraction > 1/2)')
         points, faces = make_2_band_model(pgon, args.trapezo)
 
     out = anti_lib.OffFile(args.outfile)
     out.print_all_pgon(points, faces, pgon)
+
 
 if __name__ == "__main__":
     main()

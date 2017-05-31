@@ -38,6 +38,7 @@ from anti_lib import Vec
 
 
 def get_octahedron(verts, faces):
+    """Return an octahedron"""
     X = 0.25 * math.sqrt(2)
     verts.extend([Vec(0.0, 0.5, 0.0), Vec(X, 0.0, -X),
                   Vec(X, 0.0, X), Vec(-X, 0.0, X),
@@ -48,6 +49,7 @@ def get_octahedron(verts, faces):
 
 
 def get_tetrahedron(verts, faces):
+    """Return an tetrahedron"""
     X = 1 / math.sqrt(3)
     verts.extend([Vec(-X, X, -X), Vec(-X, -X, X),
                   Vec(X, X, X), Vec(X, -X, -X)])
@@ -55,12 +57,14 @@ def get_tetrahedron(verts, faces):
 
 
 def get_ico_coords():
+    """Return icosahedron coordinate values"""
     phi = (math.sqrt(5) + 1) / 2
     rad = math.sqrt(phi+2)
     return 1/rad, phi/rad
 
 
 def get_triangle(verts, faces):
+    """Return an triangle"""
     if 1:
         Y = math.sqrt(3.0) / 12.0
         Z = -0.8
@@ -75,6 +79,7 @@ def get_triangle(verts, faces):
 
 
 def get_icosahedron(verts, faces):
+    """Return an icosahedron"""
     X, Z = get_ico_coords()
     verts.extend([Vec(-X, 0.0, Z), Vec(X, 0.0, Z), Vec(-X, 0.0, -Z),
                   Vec(X, 0.0, -Z), Vec(0.0, Z, X), Vec(0.0, Z, -X),
@@ -88,6 +93,7 @@ def get_icosahedron(verts, faces):
 
 
 def get_poly(poly, verts, edges, faces):
+    """Return the base polyhedron"""
     if poly == 'i':
         get_icosahedron(verts, faces)
     elif poly == 'o':
@@ -114,6 +120,7 @@ def get_poly(poly, verts, edges, faces):
 
 
 def grid_to_points(grid, freq, div_by_len, f_verts, face):
+    """Convert grid coordinates to Cartesian coordinates"""
     points = []
     v = []
     for vtx in range(3):
@@ -156,6 +163,7 @@ def grid_to_points(grid, freq, div_by_len, f_verts, face):
 
 
 def make_grid(freq, m, n):
+    """Make the geodesic pattern grid"""
     grid = {}
     rng = (2 * freq) // (m + n)
     for i in range(rng):
@@ -170,6 +178,7 @@ def make_grid(freq, m, n):
 
 
 def class_type(val_str):
+    """Read the class pattern specifier"""
     order = ['first', 'second']
     num_parts = val_str.count(',')+1
     vals = val_str.split(',', 2)
@@ -210,6 +219,7 @@ def class_type(val_str):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(

@@ -33,19 +33,20 @@ from math import cos, sin, tan, sqrt
 import anti_lib
 from anti_lib import Vec
 
-epsilon = 1e-15   # limit for precision considerations
+EPSILON = 1e-15   # limit for precision considerations
 
 
 def print_antiprism_angle(p_ang):
+    """Print the angle corresponding to an antiprism"""
     edge = 1                                    # polygon edge length
     rad = edge/(2*sin(p_ang))                   # circumradius of base polygon
     dist = 2*rad*sin(p_ang/2)
     msg = 'angle parameter(s) for antiprism: '
     val = 1 - dist**2
-    if val < -epsilon:
+    if val < -EPSILON:
         msg += 'antiprism is not constructible'
     else:
-        if p_ang > math.pi/2 + epsilon:
+        if p_ang > math.pi/2 + EPSILON:
             msg += '-x '
         if val < 0.0:
             val = 0.0
@@ -57,6 +58,7 @@ def print_antiprism_angle(p_ang):
 
 
 def get_principal_verts(p_ang, ang, cross_flag):
+    """Calculate example vertex coordinates"""
     edge = 1                                    # polygon edge length
     rad = edge/(2*sin(p_ang))                   # circumradius of base polygon
     belt_irad = edge*cos(ang)/(2*tan(p_ang/2))  # inradius of belt polygon
@@ -66,14 +68,14 @@ def get_principal_verts(p_ang, ang, cross_flag):
     # and the through its centre point
     # Distance to this ellipse should be tri_ht
     S2 = sin(ang)**2
-    if(abs(S2) < epsilon):
+    if abs(S2) < EPSILON:
         x = (1-2*cross_flag)*rad
 
         val = tri_ht**2 - (belt_irad - x)**2
-        if(val < -epsilon):
+        if val < -EPSILON:
             raise ValueError('triangle cannot reach base polygon '
                              '(2nd coordinate)')
-        elif(val < 0.0):
+        elif val < 0.0:
             val = 0.0
 
         y = sqrt(val)
@@ -84,10 +86,10 @@ def get_principal_verts(p_ang, ang, cross_flag):
         c = S2*tri_ht**2 - rad**2 - S2*belt_irad**2
 
         disc = b**2 - 4*a*c
-        if (disc < - epsilon):
+        if disc < - EPSILON:
             raise ValueError('triangle cannot reach base polygon '
                              '(1st coordinate)')
-        elif (disc < 0.0):
+        elif disc < 0.0:
             disc = 0.0
 
         if not a:
@@ -97,10 +99,10 @@ def get_principal_verts(p_ang, ang, cross_flag):
         x = (-b + (1-2*cross_flag)*sqrt(disc))/(2*a)
 
         val = (rad**2 - x**2)/S2
-        if(val < -epsilon):
+        if val < -EPSILON:
             raise ValueError('triangle cannot reach base polygon '
                              '(2nd coordinate)')
-        elif(val < 0.0):
+        elif val < 0.0:
             val = 0.0
 
         y = sqrt(val)
@@ -109,8 +111,8 @@ def get_principal_verts(p_ang, ang, cross_flag):
             Vec(belt_irad, 0.5*edge*cos(ang), 0.5*edge*sin(ang)))    # belt
 
 
-def make_jitterbug(pgon, ang, cross, right_fill, left_fill,
-                   delete_main_faces, **kwargs):
+def make_jitterbug(pgon, ang, cross, right_fill, left_fill, delete_main_faces):
+    """Make the jitterbug model"""
     p_ang = pgon.angle()/2
     A, B = get_principal_verts(p_ang, ang, cross)
 
@@ -153,6 +155,7 @@ def make_jitterbug(pgon, ang, cross, right_fill, left_fill,
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(
@@ -207,7 +210,7 @@ def main():
     try:
         points, faces = make_jitterbug(
             pgon, math.radians(args.angle), args.cross, args.right_fill,
-            args.left_fill, args.delete_main_faces, file=args.outfile)
+            args.left_fill, args.delete_main_faces)
     except ValueError as e:
         parser.error(e.args[0])
 

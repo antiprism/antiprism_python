@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2014-2016 Adrian Rossiter <adrian@antiprism.com>
+# Copyright (c) 2003-2016 Adrian Rossiter <adrian@antiprism.com>
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -20,60 +20,62 @@
 # THE SOFTWARE.
 
 '''
-Create an antihermaphrodite with equilateral triangles
+Distribute num_points (default 20) on a sphere using the algorithm from
+"Distributing many points on a sphere" by E.B. Saff and
+A.B.J. Kuijlaars, Mathematical Intelligencer 19.1 (1997) 5--11.
 '''
 
 import argparse
 import sys
-from math import cos, sin, tan, sqrt, radians
+import math
 import anti_lib
 from anti_lib import Vec
 
 
-def make_equ_antiherm(pgon, dih_ang):
-    N = pgon.N
-    a = pgon.angle()/2
-    R = pgon.circumradius()
-    tri_alt = sqrt(3)/2
-    tri_ht = tri_alt * sin(dih_ang)
-    R2 = pgon.inradius() + tri_alt * cos(dih_ang)
+def calc_points(args):
+    points = []
+    use_angle = 'angle' in args and args.angle is not None
+    if use_angle:
+        ang = (args.angle * math.pi/180) % (2*math.pi)
 
-    points = [Vec(0, 0, 0)]*(2*N+1)
-    for i in range(N):
-        points[i] = Vec(R*cos(2*i*a), R*sin(2*i*a), 0)
-        points[i+N] = Vec(R2*cos(2*i*a+a), R2*sin(2*i*a+a), tri_ht)
+    N = args.number_points
+    for k in range(1, N + 1):
+        h = -1 + 2 * (k - 1) / float(N - 1)
+        theta = math.acos(h)
+        if k == 1 or k == N:
+            phi = 0
+        elif use_angle:
+            phi += ang
+        else:
+            phi += 3.6 / math.sqrt(N * (1 - h * h))
 
-    A = sqrt(points[0][0]**2 + points[0][1]**2)
-    mid = anti_lib.centroid([points[N], points[2*N-1]])
-    B = sqrt(mid[0]**2 + mid[1]**2)
-    z_diff = mid[2] - points[0][2]
-    points[2*N][2] = A * z_diff / (A - B)
+        points.append(Vec(math.sin(phi) * math.sin(theta),
+                      math.cos(phi) * math.sin(theta),
+                      -math.cos(theta)))
+        phi %= 2*math.pi
 
-    faces = []
-    faces.append([i for i in range(N)])      # bottom
-
-    for i in range(N):
-        faces.append([i, (i + 1) % N, N + i])
-        faces.append([N + i, 2*N, N + (i + 1) % N, (i + 1) % N])
-
-    return points, faces
+    return points
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(
-        'polygon_fraction',
-        help='number of sides of the base polygon (N), '
-        'or a fraction for star polygons (N/D) (default: 6)',
-        default='6',
+        'number_points',
+        help='number of points to distribute on a sphere',
+        type=anti_lib.read_positive_int,
         nargs='?',
-        type=anti_lib.read_polygon)
+        default=100)
     parser.add_argument(
         '-a', '--angle',
-        help='dihedral angle at base (default: 90)',
-        type=float,
-        default='90')
+        help='increment each point placement by a fixed angle instead '
+             'of using the Saff and Kuiljaars placement method',
+        type=float)
+    parser.add_argument(
+        '-x', '--exclude-poles',
+        help='exclude the pole point circles',
+        action='store_true')
     parser.add_argument(
         '-o', '--outfile',
         help='output file name (default: standard output)',
@@ -82,18 +84,12 @@ def main():
 
     args = parser.parse_args()
 
-    pgon = args.polygon_fraction
-    dih = radians(args.angle)
-
-    points, faces = make_equ_antiherm(pgon, dih)
+    points = calc_points(args)
+    start = int(args.exclude_poles)
+    end = len(points)-start
 
     out = anti_lib.OffFile(args.outfile)
-    out.print_all_pgon(points, faces, pgon)
-
-    c = sqrt(3)/6
-    o = pgon.inradius() + c*cos(dih)
-    h = o/tan(dih) + c*sin(dih)
-    print("0,0,%f" % (h), file=sys.stderr)
+    out.print_all(points[start:end], [])
 
 if __name__ == "__main__":
     main()

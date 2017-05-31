@@ -53,6 +53,7 @@ def spiro(num_teeth_fixed, num_teeth_move, height, num_segs, outfile):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(

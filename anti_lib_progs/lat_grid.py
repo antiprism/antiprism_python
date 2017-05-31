@@ -34,47 +34,58 @@ epsilon = 1e-8
 
 
 def dist2_inside(v1, width):
+    """Square of distance less than"""
     return (v1.mag2() < width+epsilon)
 
 
 def dist2_test(v1, v2, idx1, idx2, len2):
+    """Square of distance equal"""
     return (v1-v2).mag2() == len2
 
 
 def sc_coord_test(x, y, z):  # dist2 = 1, 2, 3
+    """Test for coordinate in SC lattice"""
     return 1
 
 
 def fcc_coord_test(x, y, z):  # dist2 = 2, 4, 6, 12
+    """Test for coordinate in FCC lattice"""
     return (x+y+z) % 2 == 0
 
 
 def bcc_coord_test(x, y, z):  # dist2 = 3, 4, 8
+    """Test for coordinate in BCC lattice"""
     return (x % 2 == y % 2) and (y % 2 == z % 2)
 
 
 def rh_dodec_coord_test(x, y, z):  # dist2 = 3 (8)
+    """Test for coordinate in rhombic cuboctahedron grid"""
     return ((x % 2 + y % 2 + z % 2) == 0 or
             ((x % 2 + y % 2 + z % 2) == 3 and (x//2 + y//2) % 2 == (z//2) % 2))
 
 
 def cubo_oct_coord_test(x, y, z):  # dist2 = 2
+    """Test for coordinate in octahedron/cuboctahedron grid"""
     return (x % 2 + y % 2 + z % 2) == 2
 
 
 def tr_oct_coord_test(x, y, z):  # dist2 = 2
+    """Test for coordinate in truncated octahedron grid"""
     return ((z % 4 == 0 and x % 4 and y % 4 and (x-y) % 2) or
             (y % 4 == 0 and z % 4 and x % 4 and (z-x) % 2) or
             (x % 4 == 0 and y % 4 and z % 4 and (y-z) % 2))
 
 
 def tr_tet_tet_coord_test(x, y, z):  # dist2 = 2
+    """Test for coordinate in tretrahedron/truncated tetrahedron grid"""
     return ((x % 2 == 0 and y % 4 == ((x + z)) % 4) or
             (y % 2 == 0 and z % 4 == ((y + x)) % 4) or
             (z % 2 == 0 and x % 4 == ((z + y)) % 4))
 
 
 def tr_tet_tr_oct_cubo_coord_test(x, y, z):  # dist2 = 4
+    """Test for coordinate in truncated tetrahedron/truncated octahedron/
+    cuboctahedron grid"""
     x = abs(x) % 6
     y = abs(y) % 6
     z = abs(z) % 6
@@ -92,21 +103,25 @@ def tr_tet_tr_oct_cubo_coord_test(x, y, z):  # dist2 = 4
 
 
 def diamond_coord_test(x, y, z):  # dist2 = 3
+    """Test for coordinate in diamond grid"""
     return (((x % 2 + y % 2 + z % 2) == 0 and (x//2+y//2+z//2) % 2 == 0) or
             ((x % 2 + y % 2 + z % 2) == 3 and (x//2+y//2+z//2) % 2 == 0))
 
 
 def hcp2_coord_test(x, y, z):
+    """Test for coordinate in HCP alternative grid"""
     return (x+y+z) % 6 == 0 and ((x-y) % 3 or (x-z) % 3)
 
 
 def hcp_coord_test(x, y, z):
+    """Test for coordinate in HCP grid"""
     m = x+y+z
     return m % 6 == 0 and (x-m//12) % 3 == 0 and (y-m//12) % 3 == 0
 
 
 # Coordinates from Wendy Krieger
 def hcp_diamond_coord_test(x, y, z):
+    """Test for coordinate in HCP diamond grid"""
     for pt in [[0, 0, 0], [3, 3, 3], [6, 0, 6], [9, 3, 9]]:
         tx = x - pt[0]
         ty = y - pt[1]
@@ -120,6 +135,7 @@ def hcp_diamond_coord_test(x, y, z):
 
 
 def make_verts(lat_type, width, container_is_cube):
+    """Generate coordinates"""
     verts = []
     if container_is_cube:
         coords_start = 0
@@ -138,6 +154,7 @@ def make_verts(lat_type, width, container_is_cube):
 
 
 def make_edges(verts, strut_len_sqd):
+    """Add edges"""
     edges = []
     if strut_len_sqd:
         for i in range(len(verts)-1):
@@ -156,6 +173,7 @@ class SmartRawFormatter(argparse.HelpFormatter):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(formatter_class=SmartRawFormatter,
                                      description=__doc__)
 

@@ -65,6 +65,7 @@ def calc_temcor_side(pgon, pyramid_ht, base_ht, freq):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(

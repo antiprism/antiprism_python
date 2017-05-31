@@ -330,6 +330,7 @@ class SmartRawFormatter(argparse.HelpFormatter):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(formatter_class=SmartRawFormatter,
                                      description=__doc__)
 

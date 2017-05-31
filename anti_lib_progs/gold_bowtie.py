@@ -37,6 +37,7 @@ gold_trap_diag = sqrt(2*phi + 1)
 
 
 def get_belt_data(pgon, a, b):
+    """Get belt construction values"""
     ang = pgon.angle()/2
     tan_a = a*sin(ang)/(a*cos(ang)+b)     # tan of half of edge a
     r_a = a/(2*tan_a)                     # radius to middle of edge a
@@ -45,6 +46,7 @@ def get_belt_data(pgon, a, b):
 
 
 def cup_model(pgon, model_type):
+    """Construct cupula model with golden trapziums"""
     ang = pgon.angle()/2
     if model_type in ['0']:
         len_a, len_b, len_c = (phi-1)/sin(math.pi/2 - ang), 1, phi
@@ -127,6 +129,7 @@ def cup_model(pgon, model_type):
 
 
 def bifrustum_model(pgon, arg_type):
+    """Construct bifrustum model with golden trapziums"""
     N = pgon.N
     ang = pgon.angle()/2
     R0 = phi/(2*sin(ang))
@@ -147,6 +150,7 @@ def bifrustum_model(pgon, arg_type):
 
 
 def tri_antiprism_pt(pgon, a, b, c):
+    """Return construct point for antiprism model"""
     s = (a + b + c) / 2
     alt = 2*math.sqrt(s*(s-a)*(s-b)*(s-c)) / a  # planar height of A
     ang = pgon.angle()/2
@@ -163,6 +167,7 @@ def tri_antiprism_pt(pgon, a, b, c):
 
 
 def antiprism_model(pgon, arg_type):
+    """Construct antiprism model with golden trapziums"""
     N = pgon.N
     ang = pgon.angle()/2
     P = tri_antiprism_pt(pgon, gold_trap_diag, 1, phi)
@@ -192,6 +197,7 @@ def antiprism_model(pgon, arg_type):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(

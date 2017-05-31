@@ -108,6 +108,7 @@ def read_nonnegative_int_list(str_val):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     num_group = parser.add_mutually_exclusive_group()

@@ -365,6 +365,7 @@ def print_increments(j_no, pgon, ang, ang_end, steps, flags, **kwargs):
 
 
 def main():
+    """Entry point"""
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(

@@ -1,0 +1,5 @@
+[BASIC]
+
+# Regular expression which should only match correct variable names
+variable-rgx=[A-Za-z_][A-Za-z0-9_]*$
+
