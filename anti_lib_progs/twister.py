@@ -20,25 +20,8 @@
 # THE SOFTWARE.
 
 '''
-Twist two polygons placed on symmetry axes and joined by a vertex
-
-OUTPUT
-   A model in OFF format
-DEPENDENCIES
-   anti_lib.py
-RECOMMENDED
-   Antiprism poly_kscope for repeating the model.
-RELEASE STATUS
-   Beta
-EXAMPLES
-   Icosahedral model
-   twister.py I[5,3] | poly_kscope -s I| antiview
-
-   Twisted icosahedral model with hexagons
-   twister.py I[5,3] 1 2 -a 0.5e | poly_kscope -s I| antiview
-
-   Dihedral model with frame
-   twister.py D6[6,2] 1 2 -f ra | poly_kscope -s D6 | antiview
+Twist two polygons placed on symmetry axes and joined by a vertex. Output
+model in OFF format.
 '''
 
 import argparse
@@ -235,7 +218,6 @@ def read_axes(axes_str):
         A[nfolds][axis_pair['id_no']-1]]
     if not axes_in_order:
         axis_pair['axes'] = [-axis_pair['axes'][1], -axis_pair['axes'][0]]
-        #axis_pair['axes'] = axis_pair['axes'][::-1]
 
     return axis_pair
 
@@ -321,18 +303,26 @@ def read_turn_angle(ang_str):
     return [ang_val, ang_type]
 
 
-# allow individual options to be pre-formatted
-class SmartRawFormatter(argparse.HelpFormatter):
-    def _split_lines(self, text, width):
-        if text.startswith(']'):
-            return text[1:].splitlines()
-        return argparse.HelpFormatter._split_lines(self, text, width)
-
-
 def main():
     """Entry point"""
-    parser = argparse.ArgumentParser(formatter_class=SmartRawFormatter,
-                                     description=__doc__)
+
+    epilog = '''
+notes:
+  Depends on anti_lib.py. Use poly_kscope to repeat the model.
+
+examples:
+  Icosahedral model
+  twister.py I[5,3] | poly_kscope -s I| antiview
+
+  Twisted icosahedral model with hexagons
+  twister.py I[5,3] 1 2 -a 0.5e | poly_kscope -s I| antiview
+
+  Dihedral model with frame
+  twister.py D6[6,2] 1 2 -f ra | poly_kscope -s D6 | antiview
+'''
+
+    parser = argparse.ArgumentParser(formatter_class=anti_lib.DefFormatter,
+                                     description=__doc__, epilog=epilog)
 
     parser.add_argument(
         'symmetry_axes',
@@ -356,16 +346,16 @@ def main():
         default='O[4,3]')
     parser.add_argument(
         'multiplier1',
-        help='integer or fractional multiplier for axis 1'
-             '(default: 1). If the axis is N/D and the'
+        help='integer or fractional multiplier for axis 1 '
+             '(default: 1). If the axis is N/D and the '
              'multiplier is n/d the polygon used will be N*n/d',
         type=read_axis_multiplier,
         nargs='?',
         default="1")
     parser.add_argument(
         'multiplier2',
-        help='integer or fractional multiplier for axis 2'
-             '(default: 1). If the axis is N/D and the'
+        help='integer or fractional multiplier for axis 2 '
+             '(default: 1). If the axis is N/D and the '
              'multiplier is n/d the polygon used will be N*n/d',
         type=read_axis_multiplier,
         nargs='?',
@@ -450,7 +440,6 @@ def main():
 
     rot = Mat.rot_from_to2(Vec(0, 0, 1), Vec(1, 0, 0), axes[0], axes[1])
     all_points = [rot * point for point in points+frame_points]
-    #all_points += [axes[0].unit()*1.6, axes[1].unit()*1.6]
 
     out = anti_lib.OffFile(args.outfile)
     out.print_header(len(all_points), len(faces)+len(frame_faces))

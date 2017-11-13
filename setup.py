@@ -16,15 +16,15 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 prog_dir = 'anti_lib_progs'
 src_path = path.join(here, prog_dir)
-script_files = [f for f in listdir(src_path) if path.isfile(path.join(src_path, f))]
 script_progs = []
 for f in listdir(src_path):
-   if path.isfile(path.join(src_path, f)) and f not in ['__init__.py']:
-       script_progs.append(f+'='+prog_dir+'.'+f[:-3]+':main')
+    if path.isfile(path.join(src_path, f)) and f not in [
+            '__init__.py', 'anti_lib.py']:
+        script_progs.append(f+'='+prog_dir+'.'+f[:-3]+':main')
 
 setup(
     name='antiprism_python',
-    version='0.02',
+    version='0.1.0',
     description='Scripts to generate various types of polyhedra',
     long_description=long_description,
     url='https://github.com/antiprism/antiprism_python',
@@ -35,7 +35,7 @@ setup(
     license='MIT',
 
     classifiers=[
-        'Development Status :: 3 - Beta',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering :: Mathematics',

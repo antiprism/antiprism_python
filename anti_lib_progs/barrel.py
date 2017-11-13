@@ -42,8 +42,8 @@ def make_1_band_model(pgon, trapezo):
             R_ht * cos(2 * i * a), R_ht * sin(2 * i * a), ht / 2)
         points[i + N] = anti_lib.Vec(R * cos(2 * i * a + a),
                                      R * sin(2 * i * a + a), 0)
-        points[i + 2 * N] = anti_lib.Vec(R_ht *
-                                         cos(2 * i * a), R_ht * sin(2 * i * a), -ht / 2)
+        points[i + 2 * N] = anti_lib.Vec(R_ht * cos(2 * i * a),
+                                         R_ht * sin(2 * i * a), -ht / 2)
 
     if trapezo:
         A = sqrt(points[N][0]**2 + points[N][1]**2)
@@ -120,7 +120,23 @@ def make_2_band_model(pgon, trapezo):
 
 def main():
     """Entry point"""
-    paarser = argparse.ArgumentParser(description=__doc__)
+    epilog = '''
+notes:
+  Depends on anti_lib.py.
+
+examples:
+  Cuboctahedron
+  barrel.py 4 | antiview
+
+  Pentagonal square barrel capped with pyramids ("trapezobarrel")
+  barrel.py -t 5 | antiview
+
+  Pentagonal square barrel with two bands of squares
+  barrel.py -n 2 5 | antiview
+'''
+
+    parser = argparse.ArgumentParser(formatter_class=anti_lib.DefFormatter,
+                                     description=__doc__, epilog=epilog)
 
     parser.add_argument(
         'polygon_fraction',

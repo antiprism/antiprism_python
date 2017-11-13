@@ -204,7 +204,7 @@ def main():
     N = pgon.N
     D = pgon.D
     parts = pgon.parts
-    #if N % 2 == 0:
+    # if N % 2 == 0:
     #    parser.error('polygon: %sfraction numerator must be odd' %
     #                 ('reduced ' if parts > 1 else ''))
     if D % 2 == 0:

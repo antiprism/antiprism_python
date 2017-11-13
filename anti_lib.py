@@ -416,3 +416,12 @@ def read_polygon(val_str):
     except ValueError as e:
         raise argparse.ArgumentTypeError(e.args[0])
     return pgon
+
+
+class DefFormatter(argparse.RawDescriptionHelpFormatter):
+    '''Allow individual options to be pre-formatted. Description and
+       epilog are unformatted'''
+    def _split_lines(self, text, width):
+        if text.startswith(']'):
+            return text[1:].splitlines()
+        return argparse.HelpFormatter._split_lines(self, text, width)

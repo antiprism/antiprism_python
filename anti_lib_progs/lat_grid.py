@@ -164,18 +164,23 @@ def make_edges(verts, strut_len_sqd):
     return edges
 
 
-# allow individual options to be pre-formatted
-class SmartRawFormatter(argparse.HelpFormatter):
-    def _split_lines(self, text, width):
-        if text.startswith(']'):
-            return text[1:].splitlines()
-        return argparse.HelpFormatter._split_lines(self, text, width)
-
-
 def main():
     """Entry point"""
-    parser = argparse.ArgumentParser(formatter_class=SmartRawFormatter,
-                                     description=__doc__)
+    epilog = '''
+notes:
+  Depends on anti_lib.py.
+
+examples:
+  Oct-tet truss, space-frame
+  lat_grid.py fcc 5 2 | antiview
+
+  Spherical section of diamond
+  lat_grid.py -s diamond 20 3 | antiview
+
+'''
+
+    parser = argparse.ArgumentParser(formatter_class=anti_lib.DefFormatter,
+                                     description=__doc__, epilog=epilog)
 
     parser.add_argument(
         'lat_type',

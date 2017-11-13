@@ -220,7 +220,29 @@ def class_type(val_str):
 
 def main():
     """Entry point"""
-    parser = argparse.ArgumentParser(description=__doc__)
+    epilog = '''
+notes:
+  Depends on anti_lib.py. Use Antiprism conv_hull to create faces for
+  convex models (larger frequency tetrahdral geodesic spheres tend to
+  be non-convex).
+
+examples:
+  Icosahedral Class I F10 geodesic sphere
+  geodesic.py 10 | conv_hull | antiview
+
+  Octahedral Class 2 geodesic sphere
+  geodesic.py -p o -c 2 10 | conv_hull | antiview
+
+  Icosahedral Class 3 [3,1] geodesic sphere
+  geodesic.py -c 3,1 | conv_hull | antiview
+
+  Flat-faced equal-length division tetrahedral model
+  geodesic.py -p t -f -l -c 5,2 | conv_hull -a | antiview -v 0.05
+
+'''
+
+    parser = argparse.ArgumentParser(formatter_class=anti_lib.DefFormatter,
+                                     description=__doc__, epilog=epilog)
 
     parser.add_argument(
         'repeats',

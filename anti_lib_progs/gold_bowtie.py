@@ -121,7 +121,9 @@ def cup_model(pgon, model_type):
         for i, p in enumerate(points):
             points[i][2] -= ht
         points += [Vec(p[0], p[1], -p[2]) for p in points[:2*N]]
-        new_v = lambda v: v+3*N if v < 2*N else v
+
+        def new_v(v): v+3*N if v < 2*N else v
+
         for i in range(len(faces)):
             faces.append([new_v(v) for v in faces[i]])
 
@@ -198,7 +200,23 @@ def antiprism_model(pgon, arg_type):
 
 def main():
     """Entry point"""
-    parser = argparse.ArgumentParser(description=__doc__)
+    epilog = '''
+notes:
+  Depends on anti_lib.py. Not all models are constructible. Use of golden
+  trapeziums in polyhedra proposed by Dave Smith -
+  https://hedraweb.wordpress.com/
+
+examples:
+  Pentagonal orthobicupola type
+  gold_bowtie.py 5 1 | antiview
+
+  Petagramatic elongated gyrobicupola type
+  gold_bowtie.py 5/2 2 | antiview
+
+'''
+
+    parser = argparse.ArgumentParser(formatter_class=anti_lib.DefFormatter,
+                                     description=__doc__, epilog=epilog)
 
     parser.add_argument(
         'polygon_fraction',
@@ -209,14 +227,13 @@ def main():
         type=anti_lib.read_polygon)
     parser.add_argument(
         'poly_type',
-        help='polyhedron type: '
-             '0 - like a square barrel polyhedron; '
-             '1 - orthobicupola; '
-             '2 - elongated gyrobicupola; '
-             '3 - inverted bicupola; '
-             '4 - inverted bifrustum; '
-             '5 - like a double square barrel polyhedron '
-             '(default: 0)',
+        help=''']polyhedron type (default: 0):
+0 - like a square barrel polyhedron
+1 - orthobicupola
+2 - elongated gyrobicupola
+3 - inverted bicupola
+4 - inverted bifrustum
+5 - like a double square barrel polyhedron''',
         choices=['0', '1', '2', '3', '4', '5'],
         default='1',
         nargs='?')

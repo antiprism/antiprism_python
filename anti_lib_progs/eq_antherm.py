@@ -62,7 +62,19 @@ def make_equ_antiherm(pgon, dih_ang):
 
 def main():
     """Entry point"""
-    parser = argparse.ArgumentParser(description=__doc__)
+
+    epilog = '''
+notes:
+  Depends on anti_lib.py.
+
+examples:
+  Pentagonal hermaphrodite with equilateral triangles angled at 100 degrees
+  from base
+  eq_antherm.py -a 100 5 | antiview
+'''
+
+    parser = argparse.ArgumentParser(formatter_class=anti_lib.DefFormatter,
+                                     description=__doc__, epilog=epilog)
 
     parser.add_argument(
         'polygon_fraction',

@@ -170,7 +170,7 @@ def main():
         v = pgon0.N + args.x_axis_vert % pgon1.N
         P = points[v].copy()
         transl = Mat.transl(Vec(0, 0, -P[2]))
-        #for i in range(len(points)):
+        # for i in range(len(points)):
         #    points[i][2] -= P[2]
         rot = Mat.rot_xyz(0, 0, anti_lib.angle_around_axis(
             P, Vec(1, 0, 0),  Vec(0, 0, 1)))
