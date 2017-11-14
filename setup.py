@@ -24,7 +24,7 @@ for f in listdir(src_path):
 
 setup(
     name='antiprism_python',
-    version='0.1.1',
+    version='0.1.2',
     description='Scripts to generate various types of polyhedra',
     long_description=long_description,
     url='https://github.com/antiprism/antiprism_python',
