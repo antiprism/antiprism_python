@@ -20,7 +20,7 @@ Install
 Install the whole package with ``pip3`` (or ``pip`` if that installs as
 Python3), either from the PyPI repository::
 
-   pip3 install antiprism_pyuthon
+   pip3 install antiprism_python
 
 Or directly from the Git repository::
 
