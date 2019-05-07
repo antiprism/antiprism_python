@@ -72,6 +72,9 @@ To see the help for a program, run it with *-h*.
    a specified height, onto a unit hemisphere, by gnomonic,
    stereographic
    or general point projection.
+- `rotegrity_models.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/rotegrity_models.py>`_
+   Create cyclic rotegrity models, with 1 or 2 layers of rotegrity units
+- `sph_circles.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/sph_circles.py>`_
 - `ring_place.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/ring_place.py>`_
    Place maximum radius rings of contacting balls around points on a
    sphere. Input is a list of coordinates, one set per line.
