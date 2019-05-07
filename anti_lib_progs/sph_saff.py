@@ -23,6 +23,12 @@
 Distribute num_points (default 20) on a sphere using the algorithm from
 "Distributing many points on a sphere" by E.B. Saff and
 A.B.J. Kuijlaars, Mathematical Intelligencer 19.1 (1997) 5--11.
+
+An implementation of an "Easy method for a fairly good point distribution
+[Saff/Kuijlaars]" http://www.math.niu.edu/~rusin/known-math/97/spherefaq
+The angle offset option uses Anton Sherwood's method for spirals
+based on the golden ratio http://www.ogre.nu/pack/pack.htm
+The output can be run through conv_hull to create a polyhedron.
 '''
 
 import argparse
