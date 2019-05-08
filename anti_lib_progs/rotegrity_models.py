@@ -24,18 +24,9 @@ Create cyclic rotegrity models with 1 or 2 layers of units
 '''
 import argparse
 import sys
-from math import cos, sin, tan, acos, asin, pi
+import math
+from math import cos, sin, tan, pi
 import anti_lib
-
-
-def frac_to_end_ang(frac, num_layers):
-    return (pi/num_layers) * frac / (1 - frac)
-
-
-def pgon_ang_to_end_ang(a):
-    return acos(2*cos(a)-1)
-# return 2*asin(sqrt(1-cos(a)))
-    # return 2*atan(tan(a)/sqrt(2))
 
 
 def make_model(pgon, frac, num_layers):
@@ -43,12 +34,18 @@ def make_model(pgon, frac, num_layers):
     N = pgon.N
     a = pgon.angle() / 2
     if num_layers == 1:
-        e_ang = frac_to_end_ang(frac, num_layers)
+        if math.isnan(frac):
+            e_ang = 2*math.atan(tan(a)/math.sqrt(2))
+        else:
+            e_ang = pi * frac / (1 - frac)
     else:
-        e_ang = pgon_ang_to_end_ang(a)
+        e_ang = math.acos(2*cos(a)-1)
 
-    # print("e_ang="+str(e_ang), file=sys.stderr)
-    rot = asin(tan(e_ang/2)/tan(a))
+    sin_a = tan(e_ang/2)/tan(a)
+    if sin_a != anti_lib.safe_for_trig(sin_a):
+        return [], [], 0, 0   # not constructible
+
+    rot = math.asin(sin_a)
     ax_ang = rot - pi/2
     mid_edge = anti_lib.Vec(sin(rot), 0, cos(rot))
     axis = anti_lib.Vec(sin(ax_ang), 0, cos(ax_ang))
@@ -79,7 +76,7 @@ def make_model(pgon, frac, num_layers):
 
             faces.append([i+2*N, i, (i+1) % N, i+N])
             faces.append([(i+1) % N + N, i + 3*N, (i+1) % N + 3*N, i + 2*N])
-            # 30,31,20,11
+
     return points, faces, e_ang, pi/num_layers + e_ang
 
 
@@ -106,9 +103,10 @@ examples:
         type=anti_lib.read_polygon)
     parser.add_argument(
         '-f', '--fraction',
-        help='end fraction (default: 0.1), only used for 1-layer models',
+        help='end fraction (default: calculated valid value), '
+             'only used for 1-layer models',
         type=float,
-        default='0.1')
+        default=float('nan'))
     parser.add_argument(
         '-n', '--number-layers',
         help='number of layers (default: 1)',
@@ -127,9 +125,16 @@ examples:
     args = parser.parse_args()
     number_layers = int(args.number_layers)
 
+    if number_layers == 2 and not math.isnan(args.fraction):
+        parser.error('option -f cannot be used with option -n 2 '
+                     '(fraction value is fixed)"')
+
     pgon = args.polygon_fraction
     points, faces, end_ang, total_ang = make_model(
             pgon, args.fraction, number_layers)
+
+    if not points:
+        parser.error("model is not constructible (try reducing -f value)")
 
     use_curves = args.curved_struts
 

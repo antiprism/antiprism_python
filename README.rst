@@ -70,14 +70,12 @@ To see the help for a program, run it with *-h*.
    http://www.google.com/patents/US7900405 . Project a tiling of
    unit-edged triangles, squares or crossed squares (unit edges), at
    a specified height, onto a unit hemisphere, by gnomonic,
-   stereographic
-   or general point projection.
-- `rotegrity_models.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/rotegrity_models.py>`_
-   Create cyclic rotegrity models, with 1 or 2 layers of rotegrity units
-- `sph_circles.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/sph_circles.py>`_
+   stereographic or general point projection.
 - `ring_place.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/ring_place.py>`_
    Place maximum radius rings of contacting balls around points on a
    sphere. Input is a list of coordinates, one set per line.
+- `rotegrity_models.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/rotegrity_models.py>`_
+   Create cyclic rotegrity models, with 1 or 2 layers of rotegrity units
 - `sph_circles.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/sph_circles.py>`_
    Distribute points on horizontal circles on a sphere (like a disco
    ball). The sphere is split into equal width bands. Balls with a
