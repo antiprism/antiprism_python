@@ -60,7 +60,7 @@ def main():
     N = args.factor.numerator
     D = args.factor.denominator
     pins = args.num_pins
-    turns = N / fractions.gcd(N, D)
+    turns = N / math.gcd(N, D)
     strings = turns*pins
     print('OFF\n{} {} 0'.format(pins, strings), file=args.outfile)
 

@@ -36,7 +36,7 @@ def spiro(num_teeth_fixed, num_teeth_move, height, num_segs, outfile):
     height = height*D/N
     num_segs = num_segs
 
-    turns = D/fractions.gcd(N, D)
+    turns = D/math.gcd(N, D)
     print('OFF\n{} 1 0'.format(num_segs), file=outfile)
 
     for i in range(num_segs):

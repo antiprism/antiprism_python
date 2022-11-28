@@ -318,7 +318,7 @@ class Polygon(RawFraction):
         if D == 0:
             raise ValueError('fraction denominator is a multiple '
                              'of the numerator')
-        self.parts = fractions.gcd(N, D)
+        self.parts = math.gcd(N, D)
         self.N = N // self.parts
         self.D = D // self.parts
 

@@ -207,7 +207,7 @@ def class_type(val_str):
                     ' class pattern values cannot both be 0')
             pat.append(num)
 
-        rep = fractions.gcd(*pat)
+        rep = math.gcd(*pat)
         pat = [pat_num//rep for pat_num in pat]
         pat.append(rep)
 
