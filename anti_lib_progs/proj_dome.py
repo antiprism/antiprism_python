@@ -138,7 +138,7 @@ def parallel_project(points, R, rad):
         y = point[1]*rad/R
         try:
             z = math.sqrt(1 - (x**2 + y**2))
-        except:
+        except Exception:
             z = 0
         new_points.append(Vec(x, y, -z))
     return new_points

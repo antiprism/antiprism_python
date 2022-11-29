@@ -294,11 +294,11 @@ class RawFraction:
         if sz > 1:
             try:
                 D = int(vals[1])
-            except:
+            except Exception:
                 raise ValueError('fraction denominator is not an integer')
         try:
             N = int(vals[0])
-        except:
+        except Exception:
             raise ValueError('fraction numerator is not an integer')
 
         self.__init__(N, D)
@@ -387,7 +387,7 @@ class OffFile:
 def read_positive_float(str_val):
     try:
         val = float(str_val)
-    except:
+    except Exception:
         raise argparse.ArgumentTypeError('not a number')
 
     if val <= 0.0:
@@ -399,7 +399,7 @@ def read_positive_float(str_val):
 def read_positive_int(str_val, min_val=1):
     try:
         val = int(str_val)
-    except:
+    except Exception:
         raise argparse.ArgumentTypeError('not an integer')
 
     if val < min_val:
