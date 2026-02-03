@@ -47,9 +47,9 @@ To see the help for a program, run it with *-h*.
    Create a polyhedron with axial symmetry involving a golden
    trapezium bow-tie
 - `lat_grid.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/lat_grid.py>`_
-   Make a variety of lattices and grids using integer coordinates.
+   Create a variety of lattices and grids using integer coordinates.
 - `lamella.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/lamella.py>`_
-   Create a lamella domes. Also, makes square barrel models and
+   Create a lamella dome. Also, makes square barrel models and
    multiply-gyroelongated antihermaphrodite models.
 - `njitterbug.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/njitterbug.py>`_
    Create a jitterbug model for a general polygon base. The
@@ -63,10 +63,10 @@ To see the help for a program, run it with *-h*.
    then subsequent balls are added one at a time in three point contact
    in positions chosen by the packing method.
 - `pentabelt.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/pentabelt.py>`_
-   Make a model with axial symmetry based on a belt of staggered
+   Create a model with axial symmetry based on a belt of staggered
    pentagons
 - `proj_dome.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/proj_dome.py>`_
-   Make a Jacoby-style dome, as described in
+   Create a Jacoby-style dome, as described in
    http://www.google.com/patents/US7900405 . Project a tiling of
    unit-edged triangles, squares or crossed squares (unit edges), at
    a specified height, onto a unit hemisphere, by gnomonic,
@@ -93,7 +93,7 @@ To see the help for a program, run it with *-h*.
 - `str_art.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/str_art.py>`_
    Create simple epicycloid string art patterns.
 - `temcor_dome.py <https://github.com/antiprism/antiprism_python/blob/master/anti_lib_progs/temcor_dome.py>`_
-   Make a Temcor-style dome, using the method described in
+   Create a Temcor-style dome, using the method described in
    https://groups.google.com/d/msg/geodesichelp/hJ3V9Nfp3kE/nikgoBPSFfwJ
    .
    The base model is a pyramid with a unit edge base polygon at a
